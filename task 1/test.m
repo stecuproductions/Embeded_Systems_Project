@@ -153,3 +153,100 @@ function drawRect(x, y, w, h)
 end
 
 drawShapes();
+
+%11. 3D plot: plot the functions of two variables x and y:
+
+clear;
+clc;
+
+% Define the range for x and y
+x = -5:0.1:5;
+y = -5:0.1:5;
+[X, Y] = meshgrid(x, y); % Create a grid of x and y values
+
+% Define the functions
+f = X.^2 + 2*Y.^2;
+g = X.^2 - Y.^2;
+
+% Plot the 3D surfaces
+figure(1); % Ensure figure is unique
+subplot(1,2,1);
+surf(X, Y, f);
+title('f(x, y) = x^2 + 2y^2');
+xlabel('x');
+ylabel('y');
+zlabel('f(x, y)');
+shading interp; % Smooth shading
+grid on;
+
+subplot(1,2,2);
+surf(X, Y, g);
+title('g(x, y) = x^2 - y^2');
+xlabel('x');
+ylabel('y');
+zlabel('g(x, y)');
+shading interp;
+grid on;
+
+% Define cross-sections (e.g., slicing at y = -2, 0, 2)
+y_values = [-2, 0, 2];
+figure(2); % Open new figure for cross-sections
+hold on;
+grid on;
+
+for i = 1:length(y_values)
+    y_idx = find(y == y_values(i), 1); % Ensure only one index is taken
+    
+    % Plot f(x, y) cross-section
+    plot(x, f(:, y_idx), 'r', 'LineWidth', 1.5, 'DisplayName', ['f, y = ' num2str(y_values(i))]);
+    
+    % Plot g(x, y) cross-section
+    plot(x, g(:, y_idx), 'b--', 'LineWidth', 1.5, 'DisplayName', ['g, y = ' num2str(y_values(i))]);
+end
+
+title('Cross-sections of f(x, y) and g(x, y)');
+xlabel('x');
+ylabel('Function values');
+legend;
+hold off;
+
+%Sequences. Write a script to generate a sequence
+%a. geometric (parametrized by coefficient a > 1, a = 1, a < 1),
+%b. Fibonacci.
+%Plot the results. 
+
+% Geometric Sequence
+n = 0:10; % Define the number of terms
+a1 = 2; % Coefficient for a > 1
+a2 = 1; % Coefficient for a = 1
+a3 = 0.5; % Coefficient for a < 1
+
+% Generate the sequences
+geo_seq1 = a1.^n; % Geometric sequence with a > 1
+geo_seq2 = a2.^n; % Geometric sequence with a = 1
+geo_seq3 = a3.^n; % Geometric sequence with a < 1
+
+figure;
+hold on;
+plot(n, geo_seq1, 'r', 'DisplayName', 'a > 1');
+plot(n, geo_seq2, 'g', 'DisplayName', 'a = 1');
+plot(n, geo_seq3, 'b', 'DisplayName', 'a < 1');
+title('Geometric Sequences');
+xlabel('n');
+ylabel('Value');
+legend;
+hold off;
+
+% Fibonacci Sequence
+fib = zeros(1, 15); % Initialize the Fibonacci sequence
+fib(1) = 0;
+fib(2) = 1;
+for i = 3:15
+    fib(i) = fib(i-1) + fib(i-2); % Fibonacci recurrence relation
+end
+
+figure;
+plot(1:15, fib, '-o');
+title('Fibonacci Sequence');
+xlabel('n');
+ylabel('Fibonacci Value');
