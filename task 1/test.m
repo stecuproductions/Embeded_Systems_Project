@@ -43,7 +43,7 @@ fprintf('Dot product= %f\n', vecDot);
 
 
 vec13D=[1,2,0];
-vec23D=[3,4,0];
+vec23D=[3,4,0]; % DOT product MUST be calculated from 3D vectors
 vecCross=cross(vec13D, vec23D);
 fprintf('Cross product= [%f, %f, %f]\n', vecCross);
 
@@ -120,7 +120,7 @@ plotFunctions([1, 2, 3]);
 %10.X-Y graph: plot a few circles, ellipses, and rectangles.  Automate the operations through a custom-defined function. 
 
 function drawShapes()
-    figure; hold on; axis equal;
+     figure(99); hold on; axis equal;
     drawCircle(0, 0, 5);
     drawCircle(5, 5, 3);
 
@@ -129,22 +129,23 @@ function drawShapes()
 
     drawRect(-4, 2, 5, 3);
     drawRect(3, -6, 4, 2);
-
+    hold off;
 end
+
 
 function drawCircle(x, y, r)
     theta=linspace(0, 2*pi, 100);
     X=r*cos(theta) +x;
     Y =r*sin(theta) + y;
     plot(X, Y, 'b', 'LineWidth', 2);
-end;
+end
 
 function drawElipse(x, y, rx, ry)
     theta=linspace(0, 2*pi, 1000);
     X=rx*cos(theta) + x;
     Y = ry*sin(theta) + y;
     plot(X, Y, 'r', 'LineWidth', 2);
-end;
+end
 
 function drawRect(x, y, w, h) 
     X=[x, x+w, x+w, x, x];
@@ -189,25 +190,24 @@ shading interp;
 grid on;
 
 % Define cross-sections (e.g., slicing at y = -2, 0, 2)
+x = -5:0.1:5;
 y_values = [-2, 0, 2];
-figure(2); % Open new figure for cross-sections
-hold on;
-grid on;
+
+figure(3); clf;
+hold on; grid on;
 
 for i = 1:length(y_values)
-    y_idx = find(y == y_values(i), 1); % Ensure only one index is taken
-    
-    % Plot f(x, y) cross-section
-    plot(x, f(:, y_idx), 'r', 'LineWidth', 1.5, 'DisplayName', ['f, y = ' num2str(y_values(i))]);
-    
-    % Plot g(x, y) cross-section
-    plot(x, g(:, y_idx), 'b--', 'LineWidth', 1.5, 'DisplayName', ['g, y = ' num2str(y_values(i))]);
+    y_const = y_values(i);
+    f_cross = x.^2 + 2 * y_const^2;
+    g_cross = x.^2 - y_const^2;
+    plot(x, f_cross, 'LineWidth', 1.5, 'DisplayName', sprintf('f, y = %d', y_const));
+    plot(x, g_cross, '--', 'LineWidth', 1.5, 'DisplayName', sprintf('g, y = %d', y_const));
 end
 
-title('Cross-sections of f(x, y) and g(x, y)');
 xlabel('x');
-ylabel('Function values');
-legend;
+ylabel('Function');
+title('Crosssectionn');
+legend show;
 hold off;
 
 %Sequences. Write a script to generate a sequence
@@ -228,9 +228,9 @@ geo_seq3 = a3.^n; % Geometric sequence with a < 1
 
 figure;
 hold on;
-plot(n, geo_seq1, 'r', 'DisplayName', 'a > 1');
-plot(n, geo_seq2, 'g', 'DisplayName', 'a = 1');
-plot(n, geo_seq3, 'b', 'DisplayName', 'a < 1');
+plot(n, geo_seq1, 'r o', 'DisplayName', 'a > 1');
+plot(n, geo_seq2, 'g o', 'DisplayName', 'a = 1');
+plot(n, geo_seq3, 'b o', 'DisplayName', 'a < 1');
 title('Geometric Sequences');
 xlabel('n');
 ylabel('Value');
@@ -238,15 +238,22 @@ legend;
 hold off;
 
 % Fibonacci Sequence
-fib = zeros(1, 15); % Initialize the Fibonacci sequence
+fib = zeros(1, 15); % Initialize 1x15 matrix to store Fibonacci terms
+%define first and second term of Fibonacci sequence 
 fib(1) = 0;
 fib(2) = 1;
 for i = 3:15
     fib(i) = fib(i-1) + fib(i-2); % Fibonacci recurrence relation
 end
 
+%plotting the fibonacci sequence
 figure;
-plot(1:15, fib, '-o');
+plot(1:15, fib, 'o');
 title('Fibonacci Sequence');
 xlabel('n');
 ylabel('Fibonacci Value');
+
+
+
+
+
