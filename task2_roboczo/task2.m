@@ -1,5 +1,5 @@
-clear;
-data = readmatrix('experiment_1.csv');
+function SummaryTable = analyze_experiment(filename)
+data = readmatrix(filename);
 t = data(:, 1);
 y = data(:, 2);
 
@@ -27,6 +27,12 @@ disp(times);
 disp('Peak values:');
 disp(peaks);     
 
+if length(peaks) < 2
+    disp('Not enough peaks to calculate period');
+    SummaryTable = table(NaN);
+    return;
+end
+
 m = 0.791;
 for i=1:(length(peaks)-1)
     Ap = peaks(i);
@@ -42,11 +48,19 @@ disp('Period T:');
 disp(T);
 disp('Exponential decay factor:');
 disp(decay_fact);
-T_avg = mean(T)
+T_avg = mean(T);
 decay_avg = mean(decay_fact);
-c_min = min(c)
-c_max = max(c)
-c_avg = mean(c)
-k_min = min(k)
-k_max = max(k)
-k_avg = mean(k)
+c_min = min(c);
+c_max = max(c);
+c_avg = mean(c);
+k_min = min(k);
+k_max = max(k);
+k_avg = mean(k);
+SummaryTable = table(T_avg, decay_avg, c_min, c_max, c_avg, k_min, k_max, k_avg, ...
+    'VariableNames', {'T_avg', 'decay_avg', 'c_min', 'c_max', 'c_avg', 'k_min', 'k_max', 'k_avg'});
+disp(SummaryTable)
+end
+
+result1 = analyze_experiment('experiment_1.csv');
+result2 = analyze_experiment('experiment_2.csv');
+result3 = analyze_experiment('experiment_3.csv');
