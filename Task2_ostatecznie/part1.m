@@ -95,15 +95,16 @@ for i=1:(length(peaks)-1)
     decay_fact_all(end+1) = decay_fact(i);
 
 end
-disp('Period T:');
-disp(T);
-disp('Exponential decay factor:');
-disp(decay_fact);
-T_avg = mean(T_all)
+
+T_avg = mean(T_all);
 decay_avg = mean(decay_fact_all);
-c_min = min(c_all)
-c_max = max(c_all)
-c_avg = mean(c_all)
-k_min = min(k_all)
-k_max = max(k_all)
-k_avg = mean(k_all)
+c_min = min(c_all);
+c_max = max(c_all);
+c_avg = mean(c_all);
+k_min = min(k_all);
+k_max = max(k_all);
+k_avg = mean(k_all);
+
+SummaryTable = table(T_avg, decay_avg, c_min, c_max, c_avg, k_min, k_max, k_avg, ...
+    'VariableNames', {'T_avg', 'decay_avg', 'c_min', 'c_max', 'c_avg', 'k_min', 'k_max', 'k_avg'});
+disp(SummaryTable);
